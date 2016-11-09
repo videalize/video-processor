@@ -7,15 +7,15 @@ class NotConnectedError(Exception):
     pass
 
 
-class Fetcher:
+class Subscriber:
     def start(self):
         pass
 
-    def fetch_job(self):
+    def wait_job(self):
         raise NotImplementedError
 
 
-class RedisFetcher(Fetcher):
+class RedisSubscriber(Subscriber):
     def __init__(self):
         self.client = None
         self.connected = False
@@ -26,7 +26,7 @@ class RedisFetcher(Fetcher):
         self.connected = True
         logger.info('starting to listen to queue "%s"', settings.REDIS_PROCESS_VIDEO_QUEUE)
 
-    def fetch_job(self):
+    def wait_job(self):
         if not self.connected:
             raise NotConnectedError('client not connected')
 
