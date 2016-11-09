@@ -1,11 +1,12 @@
 from setuptools import setup
 
 setup(
-    name='video_processor',
-    packages=['video_processor'],
-    include_package_data=True,
+    name='videalize',
+    packages=['videalize'],
+    include_package_data=False,
     install_requires=[
-        'redis'
+        'redis',
+        'python-dotenv'
     ],
     setup_requires=[
     ],

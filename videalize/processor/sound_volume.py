@@ -4,7 +4,7 @@ import os
 
 def amplitude(data):
 	return max(data)-min(data)
-	
+
 if __name__ == '__main__':
 	wr = wave.open("voice.wav","rb")
 	i = 10*wr.getframerate()
@@ -23,4 +23,3 @@ if __name__ == '__main__':
 		print('ffmpeg -i "線形代数I (2013) (2) 平面ベクトルのスカラー倍，和，線形結合 (Linear Algebra I (2013), Lecture 2)-pRvkrKXxXN0.mp4" -vcodec copy -acodec copy -t 10 -ss %d output/%d.mp4'%(vest[k][0],k))
 		os.system('ffmpeg -i "線形代数I (2013) (2) 平面ベクトルのスカラー倍，和，線形結合 (Linear Algebra I (2013), Lecture 2)-pRvkrKXxXN0.mp4" -vcodec copy -acodec copy -t 10 -ss %d output/%d.mp4'%(vest[k][0],k))
 	wr.close()
-	
