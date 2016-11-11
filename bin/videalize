@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+from videalize.cli import CLI
+
+app = CLI()
+app.run()

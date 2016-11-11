@@ -7,6 +7,14 @@
 ```
 $ git clone https://github.com/videalize/video-processor.git
 $ cd video-processor
-$ pip install -r requirements.txt
-$ python setup.py develop
+$ make
+# this will run "pip install -r requirements" and "python setup.py develop"
+```
+
+## Running the server
+
+You can run the server using
+
+```
+$ make run
 ```
