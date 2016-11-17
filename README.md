@@ -2,6 +2,12 @@
 
 [![Stories in Ready](https://badge.waffle.io/videalize/video-processor.svg?label=ready&title=Ready)](http://waffle.io/videalize/video-processor)
 
+## Requirements
+
+* Python 3.5
+* OpenCV 3 with Python 3 support
+* ffmpeg
+
 ## Setup
 
 ```
