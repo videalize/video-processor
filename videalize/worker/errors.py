@@ -1,0 +1,2 @@
+class InvalidJobError(Exception):
+    pass

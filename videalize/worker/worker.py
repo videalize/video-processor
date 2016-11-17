@@ -3,22 +3,17 @@ import json
 from videalize import settings
 from videalize.logger import logger
 from .subscriber import RedisSubscriber
-from . import job_runner
-
-class InvalidJobError(Exception):
-    pass
+from .errors import InvalidJobError
+from . import tasks
 
 JOB_REQUIRED_KEYS = ['args', 'jid', 'task']
 
 class Worker:
-    def __init__(self, subscriber=None, runner=None):
+    def __init__(self, subscriber=None):
         self.running = False
         if subscriber is None:
             subscriber = RedisSubscriber()
-        if runner is None:
-            runner = job_runner.JobRunner()
         self.subscriber = subscriber
-        self.job_runner = runner
 
     def work(self):
         self.running = True
@@ -46,18 +41,17 @@ class Worker:
         for key in JOB_REQUIRED_KEYS:
             if key not in job:
                 raise InvalidJobError('job should have key %s', key)
-        if job['task'] not in job_runner.KNOWN_TASKS:
-            raise InvalidJobError('unkonwn job %s', job['task'])
 
     def process_job(self, job, retries):
+        task = tasks.get_runner(job['task'])
         try:
-            self.job_runner.run_job(job)
+            task.run(*job['args'])
         except (KeyboardInterrupt, SystemExit) as e:
             raise e
         except Exception as e: # pylint: disable=W0703
-            self.handle_failure(job, retries, e)
+            self.handle_failure(job, task, retries, e)
 
-    def handle_failure(self, job, retries, error):
+    def handle_failure(self, job, task, retries, error):
         logger.warning('could not process job %s: %s', job['jid'], str(error))
         if retries > 0:
             logger.info('retrying to process %s (%d retries left)',
@@ -65,6 +59,7 @@ class Worker:
             self.process_job(job, retries - 1)
         else:
             logger.error('job %s failed', job['jid'])
+            task.notify_failure(error)
 
     def stop(self):
         self.running = False
