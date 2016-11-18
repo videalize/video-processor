@@ -2,8 +2,9 @@ import sys
 import json
 import urllib.parse
 import urllib.request
+import os
 
-apikey = ''
+apikey = os.environ['GOOGLE_SPEECH_API_KEY']
 endpoint = 'http://www.google.com/speech-api/v2/recognize'
 query_string = {'output': 'json', 'lang': 'ja-JP', 'key': apikey}
 
