@@ -29,6 +29,7 @@ class Worker:
             job = json.loads(raw_job.decode('utf8'))
             self.validate_job_format(job)
             self.process_job(job, settings.MAX_RETRIES)
+            self.subscriber.clear_job(job)
         except json.JSONDecodeError as e:
             logger.error('could not read job: %s', str(e))
         except InvalidJobError as e:
