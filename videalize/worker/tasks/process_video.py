@@ -9,6 +9,7 @@ from videalize.processor import Processor
 from videalize.worker import file_manager
 
 THUMBNAIL_FILENAME = 'thumbnail.jpg'
+PROCESSED_FILENAME = 'processed.mp4'
 
 class ProcessVideoTask:
     def __init__(self):
@@ -24,7 +25,22 @@ class ProcessVideoTask:
         self.processor = Processor(video_path)
         self.initialize_processing()
 
+        processed_path = path.join(self.working_dir, PROCESSED_FILENAME)
+        self.processor.process_video(processed_path)
+        self.finalize_processing(processed_path)
+
         self.cleanup()
+
+    def finalize_processing(self, processed_path):
+        file_manager.upload_file(processed_path, self.processed_upload_url)
+        payload = {
+            'processed_metadata': {
+                'duration': self.processor.output_video_length,
+            },
+            'processed': self.processed_upload_url,
+            'status': 'done'
+        }
+        self.send_feedback(payload)
 
     def initialize_processing(self):
         thumbnail_path = path.join(self.working_dir, THUMBNAIL_FILENAME)
@@ -38,11 +54,15 @@ class ProcessVideoTask:
             'thumbnail': self.thumbnail_upload_url,
             'status': 'processing',
         }
+        self.send_feedback(payload)
+
+    def send_feedback(self, payload):
         r = requests.patch(self.feedback_url, json=payload)
         if r.status_code >= 400:
             raise requests.HTTPError('could not send feedback: {0}', r.text)
         else:
-            logger.info('updated video %d status to processing', self.video['id'])
+            logger.info('updated video %d status to %s', self.video['id'], payload['status'])
+
 
     @property
     def feedback_url(self):
@@ -51,6 +71,10 @@ class ProcessVideoTask:
     @property
     def thumbnail_upload_url(self):
         return self.feedback_metadata['thumbnail_upload_url']
+
+    @property
+    def processed_upload_url(self):
+        return self.feedback_metadata['processed_upload_url']
 
     def fetch_video(self):
         self.working_dir = tempfile.mkdtemp(prefix=settings.APP_NAME)
