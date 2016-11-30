@@ -2,12 +2,24 @@ import signal
 
 from videalize.worker import worker
 from videalize.logger import logger
+from videalize.processor import Processor
+
+from .parser import cli_parser
 
 class CLI:
     def __init__(self):
         self.worker = worker.Worker()
 
     def run(self):
+        args = cli_parser.parse_args()
+        command = args.command or 'listen'
+        getattr(self, command)(args)
+
+    def process(self, args):
+        processor = Processor(args.video)
+        processor.process_video(args.output)
+
+    def listen(self, _args):
         signal.signal(signal.SIGINT, self.handler)
         try:
             self.worker.work()
