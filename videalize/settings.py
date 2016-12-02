@@ -3,12 +3,14 @@ import socket
 
 from dotenv import load_dotenv, find_dotenv
 
-dotenv_file = find_dotenv()
-if dotenv_file:
-    load_dotenv(dotenv_file)
+ENV = os.environ.get('VIDEALIZE_ENV', 'dev')
+
+if ENV == 'dev':
+    dotenv_file = find_dotenv()
+    if dotenv_file:
+        load_dotenv(dotenv_file)
 
 APP_NAME = 'videalize'
-ENV = os.environ.get('VIDEALIZE_ENV', 'dev')
 HOSTNAME = socket.gethostname()
 
 REDIS_URL = os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379/3')
