@@ -1,13 +1,14 @@
 astroid==1.4.8
-av==0.3.1
 boto==2.43.0
 click==6.6
 decorator==4.0.10
+imageio==1.6
 ipython==5.1.0
 ipython-genutils==0.1.0
 isort==4.2.5
 lazy-object-proxy==1.2.2
 mccabe==0.5.2
+moviepy==0.2.2.11
 numpy==1.11.2
 pexpect==4.2.1
 pickleshare==0.7.4
@@ -20,6 +21,7 @@ redis==2.10.5
 requests==2.12.1
 simplegeneric==0.8.1
 six==1.10.0
+tqdm==4.10.0
 traitlets==4.3.1
 wcwidth==0.1.7
 wrapt==1.10.8
