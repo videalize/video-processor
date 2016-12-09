@@ -1,8 +1,11 @@
+import os
 import signal
 
+from videalize import settings
 from videalize.worker import worker
 from videalize.logger import logger
 from videalize.processor import Processor
+from . import util
 
 from .parser import cli_parser
 
@@ -21,11 +24,13 @@ class CLI:
 
     def listen(self, _args):
         signal.signal(signal.SIGINT, self.handler)
+        util.write_pid_file()
         try:
             self.worker.work()
         except KeyboardInterrupt:
             self.handler(signal.SIGINT, None)
 
     def handler(self, _signum, _frame):
+        util.remove_pid_file()
         self.worker.stop()
         logger.info('process interrupted, halting gratefully')

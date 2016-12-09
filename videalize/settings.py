@@ -1,7 +1,11 @@
+import inspect
 import os
+from os import path
 import socket
 
 from dotenv import load_dotenv, find_dotenv
+
+PROJECT_ROOT = path.dirname(path.dirname(inspect.getfile(inspect.currentframe())))
 
 ENV = os.environ.get('VIDEALIZE_ENV', 'dev')
 
@@ -21,3 +25,5 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
 MAX_RETRIES = 3
+
+PID_FILE = path.join(PROJECT_ROOT, 'tmp/video_processor.pid')
