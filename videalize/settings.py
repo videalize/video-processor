@@ -1,11 +1,10 @@
-import inspect
 import os
 from os import path
 import socket
 
 from dotenv import load_dotenv, find_dotenv
 
-PROJECT_ROOT = path.dirname(path.dirname(inspect.getfile(inspect.currentframe())))
+PROJECT_ROOT = os.environ.get('PROJECT_ROOT', os.getcwd())
 
 ENV = os.environ.get('VIDEALIZE_ENV', 'dev')
 
