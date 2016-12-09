@@ -1,8 +1,10 @@
 import cv2
 import moviepy.editor as mpy
+from .SoundProcessor import SoundProcessor
 
 class Processor:
     def __init__(self, video_path):
+        self.video_path = video_path
         self._video_length = None
         self._video_frame_count = None
         self.cv_capture = cv2.VideoCapture(video_path)
@@ -38,10 +40,17 @@ class Processor:
         parts = self.extract_necessary_times()
         clips = []
         for part in parts:
-            clips.append(self.video.subclip(part['start'] / 1000.0, part['end'] / 1000.0))
+            clips.append(self.video.subclip(part['start'], part['end']))
         self.output_video = mpy.concatenate_videoclips(clips)
         self.output_video.write_videofile(output_file)
 
     def extract_necessary_times(self):
-        return [{'start': 11000, 'end': 18000},
-                {'start': 34000, 'end': 49000}]
+        audio_path = self.video_path.replace('mp4', 'wav')
+        # ff = FFmpeg(
+        #     inputs={self.video_path: None},
+        #     outputs={self.video_path.replace('mp4', 'wav'): None}
+        # )
+        # ff.run()
+
+        sound_processor = SoundProcessor(audio_path, 8820, 'MEDIAN')
+        return sound_processor.make_cut_points()
