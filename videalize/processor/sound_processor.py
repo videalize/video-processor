@@ -2,7 +2,7 @@
 
 import numpy as np
 import soundfile as sf
-import json
+from videalize.logger import logger
 
 
 class SoundProcessor:
@@ -104,6 +104,5 @@ class SoundProcessor:
             point = {"start": start_idx * self.blocksize / 44100, "end": ((end_idx+1) * self.blocksize - 1) / 44100}
             cut_points.append(point)
 
-        # return json.dumps({"cut_points": cut_points})
-        print('complete cut by volume')
+        logger.debug('extracted cut time using volume')
         return cut_points
