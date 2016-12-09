@@ -11,6 +11,7 @@ import soundfile as sf
 import json
 
 from SoundProcessor import SoundProcessor
+from processor import Processor
 
 if __name__ == '__main__':
     argvs = sys.argv
@@ -19,14 +20,25 @@ if __name__ == '__main__':
         exit(1)
 
     sound_processor = SoundProcessor(sys.argv[1], int(sys.argv[2]))
-    sound_processor.cut_volume_by_median()
+    # sound_processor.cut_volume_by_median()
+    # sound_processor.cut_volume_by_histgram()
+    #
+    # print(sound_processor.otsu_threshould())
 
+    # plt.plot(range(len(sound_processor.hist)), sound_processor.hist)
+    # plt.hist(sound_processor.hist, 1000)
+    # plt.show()
     # print(sound_processor.make_cut_points_json)
-    sound_processor.make_cut_points_json()
+    cp = sound_processor.make_cut_points()
+
+    #processor = Processor('../../videos/lecture_sample.mp4')
+    #processor.process_video('../../videos/test.mp4')
+
+
 
     # 横軸：時間，縦軸：音量のグラフを出力
-    plt.plot(np.array(range(len(sound_processor.filtered_wav))), sound_processor.filtered_wav)
-    plt.show()
+    # plt.plot(np.array(range(len(sound_processor.filtered_wav))), sound_processor.filtered_wav)
+    # plt.show()
 
     # argumentParser = ArgumentParser()
     # argumentParser.add_argument('-f', '--filename', type=str, required=True)
