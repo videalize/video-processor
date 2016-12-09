@@ -6,6 +6,8 @@ build/
 dist/
 venv/
 .venv/
+*.mp4
+*.mp3
 
 tmp/*
 !tmp/.keep
