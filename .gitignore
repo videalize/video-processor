@@ -4,6 +4,8 @@
 video_processor/videos/*
 build/
 dist/
+venv/
+.venv/
 
 tmp/*
 !tmp/.keep
