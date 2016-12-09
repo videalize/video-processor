@@ -46,5 +46,5 @@ class Processor:
         audio_path = self.video_path.replace('mp4', 'wav')
         self.video.audio.write_audiofile(audio_path)
         # XXX: why 8820?
-        sound_processor = SoundProcessor(audio_path, 8820)
+        sound_processor = SoundProcessor(audio_path, 8820, 'MEDIAN')
         return sound_processor.make_cut_points()
