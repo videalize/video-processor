@@ -90,7 +90,7 @@ class SoundProcessor:
         for idx, w in enumerate(self.filtered_wav):
             if w == 0:
                 if end_idx != -1:
-                    point = {"start": start_idx * self.blocksize, "end": (end_idx+1) * self.blocksize - 1}
+                    point = {"start": start_idx * self.blocksize / 44100, "end": ((end_idx+1) * self.blocksize - 1) / 44100}
                     cut_points.append(point)
                     start_idx = -1
                     end_idx = -1
@@ -101,8 +101,9 @@ class SoundProcessor:
                     end_idx = idx
 
         if start_idx != -1 and end_idx != -1:
-            point = {"start": start_idx * self.blocksize, "end": (end_idx+1) * self.blocksize - 1}
+            point = {"start": start_idx * self.blocksize / 44100, "end": ((end_idx+1) * self.blocksize - 1) / 44100}
             cut_points.append(point)
 
         # return json.dumps({"cut_points": cut_points})
+        print('complete cut by volume')
         return cut_points
