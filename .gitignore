@@ -4,3 +4,6 @@
 video_processor/videos/*
 build/
 dist/
+
+tmp/*
+!tmp/.keep
