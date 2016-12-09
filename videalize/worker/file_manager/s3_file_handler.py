@@ -1,5 +1,6 @@
 import sys
 import boto
+from boto.s3.key import Key
 
 from videalize import settings
 
@@ -20,5 +21,9 @@ def download_file(bucket_name, source, destination):
     file_key.get_contents_to_filename(destination)
 
 
-def upload_file(_source, _bucket, _destination):
-    raise NotImplementedError
+def upload_file(source, bucket_name, destination):
+    conn = get_connection()
+    bucket = conn.get_bucket(bucket_name)
+    file_key = Key(bucket)
+    file_key.key = destination
+    file_key.set_contents_from_filename(source)
