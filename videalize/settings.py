@@ -23,6 +23,9 @@ REDIS_TEMP_VIDEO_QUEUE = os.environ.get('REDIS_TEMP_QUEUE', 'processing_{0}'.for
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
+IBM_USERNAME = os.environ.get('IBM_USERNAME')
+IBM_PASSWORD = os.environ.get('IBM_PASSWORD')
+
 MAX_RETRIES = 3
 
 PID_FILE = path.join(PROJECT_ROOT, 'tmp/video_processor.pid')
