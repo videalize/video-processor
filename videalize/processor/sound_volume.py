@@ -6,8 +6,8 @@ framesize = 20 #ms
 
 def amplitude(data):
 	return max(data)-min(data)
-	
-class sound_volume:
+
+class Sound_Volume:
 	#read file and calculate sound volume
 	def __init__(self,filename):
 		wr = wave.open(filename,"rb")
@@ -20,7 +20,7 @@ class sound_volume:
 				d = d[::2]
 			self.volume.append(amplitude(d))
 		wr.close()
-	
+
 	#time(s)
 	def getvolume(self,time):
 		return self.volume[int(time*1000/framesize)]
@@ -28,7 +28,7 @@ class sound_volume:
 	#time = [starttime(s),endtime(s)]
 	def getvolumes(self,time):
 		return self.volume[int(time[0]*1000/framesize):int(time[1]*1000/framesize)]
-		
+
 	def thresholding(self,noize = 0.1):
 		noizevolume = max(self.volume)*noize
 		voice = list(map(lambda x:x>noizevolume,self.volume))
@@ -41,11 +41,11 @@ class sound_volume:
 				length.append(i-start)
 				start = i
 		return length
-		
+
 	#noize = noize_volume/voice_volume
 	#mincutsize(s)
 	#return voice point (not cutting point)
-	def toarrays(self,noize = 0.1,mincutsize = 2):
+	def toarrays(self,noize = 0.01,mincutsize = 1):
 		point = []
 		length = self.thresholding(noize = noize)
 		minsize = int(mincutsize*1000/framesize)
@@ -87,29 +87,8 @@ class sound_volume:
 					non -= length[stack+1]
 					stack += 2
 		p = 0
-		print(collect)
 		for x in range(0,len(collect)-1,2):
 			p += collect[x]
-			point.append((p*framesize/1000,(p+collect[x+1])*framesize/1000))
+			point.append({'start':p*framesize,'end':(p+collect[x+1])*framesize})
 			p += collect[x+1]
 		return point
-		
-if __name__ == '__main__':
-	wr = wave.open("voice.wav","rb")
-	i = 1*wr.getframerate()
-	j = 0
-	powers = []
-	while i < wr.getnframes():
-		data = wr.readframes(1*wr.getframerate())
-		d = struct.unpack('%dh'%1*wr.getnchannels()*wr.getframerate(),data)
-		d = d[::2]
-		powers.append((j,amplitude(d)))
-		i += 1*wr.getframerate()
-		j += 1
-	vest = sorted(powers,key=lambda student: student[1])[-60:]
-	vest = sorted(vest,key=lambda student: student[0])
-	for k in range(60):
-		print('ffmpeg -i "線形代数I (2013) (2) 平面ベクトルのスカラー倍，和，線形結合 (Linear Algebra I (2013), Lecture 2)-pRvkrKXxXN0.mp4" -vcodec copy -acodec copy -t 1 -ss %d output/%d.mp4'%(vest[k][0],k))
-		os.system('ffmpeg -i "線形代数I (2013) (2) 平面ベクトルのスカラー倍，和，線形結合 (Linear Algebra I (2013), Lecture 2)-pRvkrKXxXN0.mp4" -vcodec copy -acodec copy -t 1 -ss %d output/%d.mp4'%(vest[k][0],k))
-	wr.close()
-	
