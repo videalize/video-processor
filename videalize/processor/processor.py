@@ -40,7 +40,7 @@ class Processor:
 
     def process_video(self, output_file):
         parts = self.extract_necessary_times()
-        clips = [self.video.subclip(part['start'], part['end']) for part in parts]
+        clips = [self.video.subclip(part['start'], min(part['end'], self.video.duration)) for part in parts]
         self.output_video = mpy.concatenate_videoclips(clips)
         self.output_video.write_videofile(output_file)
 
