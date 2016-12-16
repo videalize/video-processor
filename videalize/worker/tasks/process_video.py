@@ -26,16 +26,17 @@ class ProcessVideoTask:
         self.initialize_processing()
 
         processed_path = path.join(self.working_dir, PROCESSED_FILENAME)
-        self.processor.process_video(processed_path)
-        self.finalize_processing(processed_path)
+        process_method = self.processor.process_video(processed_path)
+        self.finalize_processing(processed_path, process_method)
 
         self.cleanup()
 
-    def finalize_processing(self, processed_path):
+    def finalize_processing(self, processed_path, process_method):
         file_manager.upload_file(processed_path, self.processed_upload_url)
         payload = {
             'processed_metadata': {
                 'duration': self.processor.output_video_length,
+                'method': process_method
             },
             'processed': self.processed_upload_url,
             'status': 'done'
