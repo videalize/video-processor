@@ -1,6 +1,8 @@
 import cv2
 import moviepy.editor as mpy
+
 from .sound_processor import SoundProcessor
+from videalize import settings
 
 class Processor:
     def __init__(self, video_path):
@@ -46,5 +48,5 @@ class Processor:
         audio_path = self.video_path.replace('mp4', 'wav')
         self.video.audio.write_audiofile(audio_path)
         # XXX: why 8820?
-        sound_processor = SoundProcessor(audio_path, 8820, 'MEDIAN')
+        sound_processor = SoundProcessor(audio_path, 8820, settings.SOUND_PROCESSOR_METHOD)
         return sound_processor.make_cut_points()

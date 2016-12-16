@@ -26,6 +26,8 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 IBM_USERNAME = os.environ.get('IBM_USERNAME')
 IBM_PASSWORD = os.environ.get('IBM_PASSWORD')
 
+SOUND_PROCESSOR_METHOD = os.environ.get('SOUND_PROCESSOR_METHOD', 'MEDIAN')
+
 MAX_RETRIES = 3
 
 PID_FILE = path.join(PROJECT_ROOT, 'tmp/video_processor.pid')
