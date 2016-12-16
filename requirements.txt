@@ -11,6 +11,7 @@ lazy-object-proxy==1.2.2
 mccabe==0.5.2
 moviepy==0.2.2.11
 numpy==1.11.2
+opencv-python==3.1.0.3
 pexpect==4.2.1
 pickleshare==0.7.4
 prompt-toolkit==1.0.8
