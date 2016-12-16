@@ -30,4 +30,6 @@ SOUND_PROCESSOR_METHOD = os.environ.get('SOUND_PROCESSOR_METHOD', 'HISTGRAM')
 
 MAX_RETRIES = 3
 
+SPEECH_CUT_THRESHOLD = 2
+
 PID_FILE = path.join(PROJECT_ROOT, 'tmp/video_processor.pid')
