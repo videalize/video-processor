@@ -33,4 +33,4 @@ class CLI:
     def handler(self, _signum, _frame):
         util.remove_pid_file()
         self.worker.stop()
-        logger.info('process interrupted, halting gratefully')
+        logger.info('process interrupted, halting gracefully')
