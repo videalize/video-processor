@@ -54,7 +54,7 @@ class SoundProcessor:
         '''
         大津の手法によるヒストグラムの二値化
         '''
-        mean = np.mean(self.wav)
+        mean = np.mean(self.hist)
         max_idx = -1
         max_s = 0
 
