@@ -56,7 +56,7 @@ class Processor:
         sound_processor = SoundProcessor(audio_path, 8820, settings.SOUND_PROCESSOR_METHOD)
         sound_parts = sound_processor.make_cut_points()
 
-        if self.video.duration <= settings.SPEECH_MAX_VIDEO_LENGTH:
+        if settings.USE_SPEECH_RECOGNITION and self.video.duration <= settings.SPEECH_MAX_VIDEO_LENGTH:
             try:
                 sr = sound_recognition.SoundRecognition()
                 speech_parts = sr.process_file(audio_path)

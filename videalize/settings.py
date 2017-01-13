@@ -34,3 +34,5 @@ SPEECH_CUT_THRESHOLD = 0.5
 SPEECH_MAX_VIDEO_LENGTH = 60 * 5
 
 PID_FILE = path.join(PROJECT_ROOT, 'tmp/video_processor.pid')
+
+USE_SPEECH_RECOGNITION = False
